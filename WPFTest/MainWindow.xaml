@@ -1,8 +1,37 @@
 ﻿<Window x:Class="WPFTest.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" Height="600" Width="800">
+    
+    <!-- HTMLみたいに子要素に対してFontSizeなどを継承することができる(包含継承) -->
+
+    <!-- オブジェクト・リソースを定義すると、複数のUI要素で1つのオブジェクトを共有できる -->
+    <Window.Resources>
+        <SolidColorBrush x:Key="MyBrush" Color="Blue"/>
+    </Window.Resources>
+
+    <StackPanel>
+        <Canvas Width="400" Height="300">
+            <!-- 平行移動は親要素からの相対位置に基づいて子要素もろとも行われる-->
+            <Rectangle Canvas.Left="30" Canvas.Top="30"
+                   Width="50" Height="50" Fill="Red"/>
+            <!-- 回転は子要素も含めて行われる -->
+            <!-- Canvas.Leftなどの属性は1段上の親にあたるCanvasが子要素の座標指定をするために使用する -->
+            <!-- このように、自分自身ではなく、親要素が使用する値を子要素に付与するための仕組みを「添付プロパティ(Attached Property」と呼ぶらしい -->
+            <Canvas Canvas.Left="100" Canvas.Top="50"
+                Width="200" Height="200" Background="Plum">
+                <Canvas.RenderTransform>
+                    <RotateTransform Angle="30"/>
+                </Canvas.RenderTransform>
+                <Rectangle Canvas.Left="30" Canvas.Top="30"
+                       Width="50" Height="50" Fill="Blue"/>
+                <Rectangle Canvas.Left="130" Canvas.Top="30"
+                       Width="50" Height="50" Fill="Green"/>
+            </Canvas>
+        </Canvas>
+        <Button Content="Button 1" 
+                Background="{StaticResource MyBrush}"/>
+        <Button Content="Button 2" 
+                Background="{StaticResource MyBrush}"/>
+    </StackPanel>
 </Window>
